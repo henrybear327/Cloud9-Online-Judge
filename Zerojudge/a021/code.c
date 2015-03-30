@@ -46,6 +46,8 @@ int main()
 #endif
 
         int i, input1[501] = {0}, input2[501] = {0};
+        int len1 = strlen(temp_input_1), len2 = strlen(temp_input_2);
+        int max = len1 > len2 ? len1: len2;
 
         for(i = 0; i < (int)strlen(temp_input_1); i++)
             input1[500 - (int)strlen(temp_input_1) + 1 + i] = temp_input_1[i] - '0';
@@ -62,8 +64,6 @@ int main()
         printf("\n");
 #endif
 
-        int len1 = strlen(temp_input_1), len2 = strlen(temp_input_2);
-        int max = len1 > len2 ? len1 - 1 : len2 - 1; /*exclude length for \0*/
         switch(sign) {
         case PLUS:
             perform_add(input1, input2, max);
@@ -90,9 +90,8 @@ int main()
 
 void perform_add(int input1[], int input2[], int max)
 {
-    printf("%d\n",max);
     int i, carry = 0, answer[501] = {0};
-    for(i = 500; i > max; i--) {
+    for(i = 500; i >= (500 - max); i--) {
         answer[i] = input1[i] + input2[i] + carry;
         if(answer[i] > 9) {
             carry = 1;
@@ -101,18 +100,29 @@ void perform_add(int input1[], int input2[], int max)
             carry = 0;
         }
     }
-#if DEBUG == 2
+#if DEBUG == 1
+    printf("max %d\n", max);
+    printf("Print all convert to number results\n");
+    for(i = 0; i < 501; i++)
+        printf("%d", input1[i]);
+    printf("\n");
+    for(i = 0; i < 501; i++)
+        printf("%d", input2[i]);
+    printf("\n");
+
     printf("Print plus result\n");
-    for(i = 500; i >= (500 - max); i--)
+#endif
+
+    if(answer[500 - max] == 0)
+        max--;
+    for(i = 500 - max; i < 501; i++)
         printf("%d", answer[i]);
     printf("\n");
-#endif
 }
 
 void perform_subtrack(int input1[], int input2[], int max)
 {
-
-
+ 
 }
 
 void perform_multiply(int input1[], int input2[], int max)
