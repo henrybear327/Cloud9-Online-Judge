@@ -1,22 +1,114 @@
-/*
-astyle --style=linux code.c
-gcc -Wall code.c -o code
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_INPUT_SIZE 502
+#define DEBUG 1
+
+enum operation {ERROR, UNDETERMINED, PLUS, SUBTRACT, MULTIPLY, DIVIDE};
+int determine_sign(char *ptr)
+{
+    char *sign = "+-*/";
+    int i;
+    for(i = 0; i < 4; i++)
+        if(ptr[0] == sign[i])
+            return i + 2;
+    return ERROR; /*This should never happen*/
+}
+
+void perform_add(int [], int [], int, int);
+void perform_subtrack(int [], int [], int, int);
+void perform_multiply(int [], int [], int, int);
+void perform_divide(int [], int [], int, int);
 
 int main()
 {
-    char input_1[MAX_INPUT_SIZE] = {0}, sign, input_2[MAX_INPUT_SIZE] = {0};
-    while(fgets(input_1, MAX_INPUT_SIZE, stdin) != NULL){
-        scanf("%c", &sign);
-        getchar();
-        fgets(input_2, MAX_INPUT_SIZE, stdin);
-        
-        printf("%s %c %s", input_1, sign, input_2);
+    char input[500 * 2 + 10] = {'\0'};
+    while(fgets(input, 1010, stdin) != NULL) {
+        enum operation sign = UNDETERMINED;
+        char *ptr, *temp_input_1, *temp_input_2;
+
+        ptr = strtok(input, " ");
+        temp_input_1 = malloc(sizeof(char) * (strlen(ptr) + 1));
+        strcpy(temp_input_1, ptr);
+
+        ptr = strtok(NULL, " ");
+        sign = determine_sign(ptr);
+
+        ptr = strtok(NULL, "\n");
+        temp_input_2 = malloc(sizeof(char) * (strlen(ptr) + 1));
+        strcpy(temp_input_2, ptr);
+
+#if DEBUG
+        printf("Print all strtok results\n");
+        printf("%s", temp_input_1);
+        printf(" %d ", sign);
+        printf("%s\n", temp_input_2);
+#endif
+
+        int i, input1[500], input2[500];
+
+        for(i = 0; i < (int)strlen(temp_input_1); i++)
+            input1[i] = temp_input_1[i] - '0';
+        for(i = 0; i < (int)strlen(temp_input_2); i++)
+            input2[i] = temp_input_2[i] - '0';
+
+#if DEBUG
+        printf("Print all convert to number results\n");
+        for(i = 0; i < (int)strlen(temp_input_1); i++)
+            printf("%d", input1[i]);
+        printf("\n");
+        for(i = 0; i < (int)strlen(temp_input_2); i++)
+            printf("%d", input2[i]);
+        printf("\n");
+#endif
+
+        int len1 = strlen(temp_input_1), len2 = strlen(temp_input_2);
+        switch(sign) {
+        case PLUS:
+            perform_add(input1, input2, len1, len2);
+            break;
+        case SUBTRACT:
+            perform_subtrack(input1, input2, len1, len2);
+            break;
+        case MULTIPLY:
+            perform_multiply(input1, input2, len1, len2);
+            break;
+        case DIVIDE:
+            perform_divide(input1, input2, len1, len2);
+            break;
+        default:
+            printf("Error!\n");
+            break;
+        }
+        free(temp_input_1);
+        free(temp_input_2);
     }
+
     return 0;
 }
+
+void perform_add(int input1[], int input2[], int len1, int len2)
+{
+    int i, answer[501] = {-1}, carry = 0;
+    int max = len1 > len2 ? len1 - 1 : len2 - 1, min = len1 < len2 ? len1 - 1: len2 - 1;
+    for(i = min; i >= 0; i++) {
+        answer[i] = input1[i] + input2[i];
+        if(answer[i] > 9) {
+            answer[i] -= 10;
+            carry = 1;
+        } else {
+            carry = 0;
+        }
+    }}
+    void perform_subtrack(int input1[], int input2[], int len1, int len2) {
+
+
+    }
+    void perform_multiply(int input1[], int input2[], int len1, int len2) {
+
+
+    }
+    void perform_divide(int input1[], int input2[], int len1, int len2) {
+
+
+    }
