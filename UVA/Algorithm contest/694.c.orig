@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+/*(2147483647 - 1) / 3 = 715827882*/
+
+int main()
+{
+    int input;
+    while(scanf("%d", &input) != EOF) {
+        int count = 1;
+        while(input != 1) {
+            if(input % 2 == 0) /*even*/ 
+                input /= 2;
+            else /*odd*/ {
+                input = input * 3 + 1;
+        }}
+           
+    }
+    
+    return 0;
+}

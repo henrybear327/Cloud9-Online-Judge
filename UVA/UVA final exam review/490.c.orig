@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main()
+{
+    char sentence[102][102];
+    memset(sentence, ' ', sizeof(sentence));//empty space needs to be filled in with ' '
+    
+    int count = 0, max = 0;
+    while(fgets(sentence[count], 102, stdin) != NULL) {
+        sentence[strlen(sentence[count]) - 1] = '\0'; //\n -> \0
+        sentence[strlen(sentence[count])] = ' '; //\0 -> ' '
+        max = strlen(sentence[count]) > max ? strlen(sentence[count]) : max;
+        sentence[strlen(sentence[count]) - 1] = ' '; //\0 -> ' '
+        count++;
+    }
+    count--; //the count-th line will be \n only
+    
+    int row = 0; column = 0;
+    for(row = 0; row <= count; row++) {
+        for(column = 0; column < max; column++) {
+            printf("%c", sentence[column]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+    
+    return 0;
+}

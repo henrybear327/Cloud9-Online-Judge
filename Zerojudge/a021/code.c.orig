@@ -1,0 +1,22 @@
+/*
+astyle --style=linux code.c
+gcc -Wall code.c -o code
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_INPUT_SIZE 502
+
+int main()
+{
+    char input_1[MAX_INPUT_SIZE] = {0}, sign, input_2[MAX_INPUT_SIZE] = {0};
+    while(fgets(input_1, MAX_INPUT_SIZE, stdin) != NULL){
+        scanf("%c", &sign);
+        getchar();
+        fgets(input_2, MAX_INPUT_SIZE, stdin);
+        
+        printf("%s %c %s", input_1, sign, input_2);
+    }
+    return 0;
+}
